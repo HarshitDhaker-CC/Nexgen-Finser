@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, ChevronDown, Phone } from "lucide-react";
+import { useScroll, useSpring, motion } from "framer-motion";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -25,6 +26,32 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState<string>("/");
+
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 400, damping: 40 });
+
+  // Track active section
+  useEffect(() => {
+    const sectionIds = ["hero", "about-preview", "services", "tools-preview", "faq", "contact-cta"];
+    const hrefs = ["/", "/about", "/services", "/tools/wealth-studio", "/#faq", "/contact"];
+    const observerRef = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = sectionIds.indexOf(entry.target.id);
+            if (idx !== -1) setActiveSection(hrefs[idx]);
+          }
+        });
+      },
+      { rootMargin: "-30% 0px -60% 0px" }
+    );
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observerRef.observe(el);
+    });
+    return () => observerRef.disconnect();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -40,17 +67,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Compliance bar */}
-      <div className="compliance-bar">
-        <div className="container-custom">
-          <span>
-            AMFI Registered Mutual Fund Distributor · ARN-XXXXXX · Kota, Rajasthan · Mutual Fund investments are subject to market risks.{" "}
-            <a href="/resources">Read all scheme-related documents carefully.</a>
-          </span>
-        </div>
-      </div>
-
-      {/* Main navbar */}
       <header
         style={{
           position: "sticky",
@@ -64,6 +80,18 @@ export default function Navbar() {
           boxShadow: scrolled ? "0 4px 24px rgba(11,31,58,0.08)" : "none",
         }}
       >
+        {/* Scroll progress bar */}
+        <motion.div
+          style={{
+            position: "absolute",
+            top: 0, left: 0, right: 0,
+            height: "3px",
+            background: "linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light))",
+            transformOrigin: "0%",
+            scaleX,
+            zIndex: 110,
+          }}
+        />
         <div className="container-custom">
           <nav
             style={{
@@ -217,19 +245,21 @@ export default function Navbar() {
                     style={{
                       padding: "0.5rem 0.875rem",
                       fontFamily: "'Work Sans', sans-serif",
-                      fontWeight: 500,
+                      fontWeight: activeSection === link.href ? 600 : 500,
                       fontSize: "0.9375rem",
-                      color: "var(--text-secondary)",
+                      color: activeSection === link.href ? "var(--gold-dark)" : "var(--text-secondary)",
                       textDecoration: "none",
                       borderRadius: "0.5rem",
                       transition: "color 0.2s, background 0.2s",
+                      borderBottom: activeSection === link.href ? "2px solid var(--gold)" : "2px solid transparent",
+                      paddingBottom: "calc(0.5rem - 2px)",
                     }}
                     onMouseEnter={(e) => {
                       (e.currentTarget as HTMLElement).style.color = "var(--navy)";
                       (e.currentTarget as HTMLElement).style.background = "rgba(11,31,58,0.04)";
                     }}
                     onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
+                      (e.currentTarget as HTMLElement).style.color = activeSection === link.href ? "var(--gold-dark)" : "var(--text-secondary)";
                       (e.currentTarget as HTMLElement).style.background = "transparent";
                     }}
                   >

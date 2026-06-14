@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppFloat from "@/components/layout/WhatsAppFloat";
+import ComplianceBanner from "@/components/layout/ComplianceBanner";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -52,6 +53,53 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://nexgenfinser.com" },
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is the minimum amount to start investing?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "You can start a SIP with as little as ₹500/month. Lumpsum minimum is typically ₹1,000–₹5,000 depending on the fund.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is my money safe with Nexgen Finser?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Your money is invested directly in SEBI-regulated mutual funds — the AMC holds your funds, not us. We are AMFI-registered distributors. All investments carry market risk.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How do I track my portfolio?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "You receive a monthly CAS from CAMS/KFintech. We also provide quarterly review reports via email/WhatsApp.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do you charge any fee?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "As an AMFI distributor, we earn trail commissions from AMCs on regular plans. No direct fee is charged to you. Advisory fee (if any) is disclosed upfront.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I get a free portfolio review?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes! We offer complimentary portfolio reviews. Use the form on this page or WhatsApp us directly.",
+      },
+    },
+  ],
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -96,8 +144,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }),
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
       </head>
       <body suppressHydrationWarning>
+        <ComplianceBanner />
         <Navbar />
         <main>{children}</main>
         <Footer />

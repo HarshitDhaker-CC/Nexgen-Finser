@@ -928,3 +928,10 @@ h4, h5, h6 { font-family: 'Inter', sans-serif; }
 img[loading="lazy"] { opacity: 0; transition: opacity 0.4s ease; }
 img[loading="lazy"].loaded { opacity: 1; }
 
+/* ─── Hero Floating Cards: Hide on Mobile ─────────────────────────────── */
+@media (max-width: 768px) {
+  .hero-cards-col { display: none !important; }
+}
+
+/* ─── Compliance bar (legacy - hidden in favour of ComplianceBanner) ──── */
+.compliance-bar { display: none; }

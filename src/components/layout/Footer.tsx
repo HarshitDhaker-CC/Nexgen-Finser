@@ -330,13 +330,13 @@ export default function Footer() {
                 borderRadius: "0.625rem",
                 padding: "1rem 1.25rem",
                 marginBottom: "1.5rem",
-                fontSize: "0.75rem",
-                lineHeight: 1.6,
-                color: "rgba(255,255,255,0.4)",
+                fontSize: "11px",
+                lineHeight: 1.65,
+                color: "rgba(255,255,255,0.35)",
               }}
             >
-              <strong style={{ color: "rgba(255,255,255,0.6)" }}>Risk Disclaimer: </strong>
-              Mutual Fund investments are subject to market risks. Past performance is not indicative of future results. Please read all scheme related documents carefully before investing. Returns shown in calculators are for illustrative purposes only and do not guarantee actual returns. Nexgen Finser is an AMFI registered Mutual Fund Distributor (ARN-XXXXXX) and not a SEBI Registered Investment Advisor.
+              <strong style={{ color: "rgba(255,255,255,0.5)", display: "block", marginBottom: "0.375rem" }}>Important Disclosure</strong>
+              Nexgen Finser is an AMFI Registered Mutual Fund Distributor. ARN: XXXXXX. Mutual Fund investments are subject to market risks. Read all scheme related documents carefully before investing. Past performance is not indicative of future returns. The information on this website is for educational purposes only and does not constitute investment advice. Registration granted by SEBI and certification from NISM in no way guarantee performance of the intermediary or provide any assurance of returns to investors. Returns shown in the Wealth Projection Studio are illustrative only and are not guaranteed. Nexgen Finser is not a SEBI Registered Investment Advisor.
             </div>
             <div
               style={{
